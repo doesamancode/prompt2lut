@@ -1,6 +1,8 @@
 import argparse
 import time
 from models import StyleParameters
+from parsing.rule_parser import parse_prompt
+from style_mapping.mapper import apply_parsed_rules
 
 def main():
     start_time = time.time()
@@ -35,7 +37,12 @@ def main():
     print("Raw Prompt:")
     print(f"    {args.prompt}\n")
 
-    params = StyleParameters.neutral()
+    parsed = parse_prompt(args.prompt)
+    params = apply_parsed_rules(parsed)
+
+    print("Parsed Intent")
+    for item in parsed:
+        print(item)
 
     print("Style Parameters (Neutral Base):")
     print(params)
